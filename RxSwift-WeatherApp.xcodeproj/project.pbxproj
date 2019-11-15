@@ -13,6 +13,7 @@
 		45026078237C3DE9002AA28C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45026076237C3DE9002AA28C /* Main.storyboard */; };
 		4502607A237C3DED002AA28C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45026079237C3DED002AA28C /* Assets.xcassets */; };
 		4502607D237C3DED002AA28C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4502607B237C3DED002AA28C /* LaunchScreen.storyboard */; };
+		45026086237F14B9002AA28C /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45026085237F14B9002AA28C /* WeatherInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		45026079237C3DED002AA28C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4502607C237C3DED002AA28C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4502607E237C3DED002AA28C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45026085237F14B9002AA28C /* WeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		4502606F237C3DE9002AA28C /* RxSwift-WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				45026084237F14AD002AA28C /* Model */,
 				45026070237C3DE9002AA28C /* AppDelegate.swift */,
 				45026072237C3DE9002AA28C /* SceneDelegate.swift */,
 				45026074237C3DE9002AA28C /* ViewController.swift */,
@@ -65,6 +68,14 @@
 				4502607E237C3DED002AA28C /* Info.plist */,
 			);
 			path = "RxSwift-WeatherApp";
+			sourceTree = "<group>";
+		};
+		45026084237F14AD002AA28C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				45026085237F14B9002AA28C /* WeatherInfo.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45026086237F14B9002AA28C /* WeatherInfo.swift in Sources */,
 				45026075237C3DE9002AA28C /* ViewController.swift in Sources */,
 				45026071237C3DE9002AA28C /* AppDelegate.swift in Sources */,
 				45026073237C3DE9002AA28C /* SceneDelegate.swift in Sources */,
