@@ -21,15 +21,30 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        cityNameTextField.rx.value
-            .orEmpty // nilなら流さないアンラップ
+
+        // 編集完了後のみrequestを流す（完了イベント自体を購読する）
+        cityNameTextField.rx.controlEvent(.editingDidEndOnExit)
+            .asObservable()
+            .map { self.cityNameTextField.text ?? "" }
             .subscribe(onNext: { [weak self] text in
                 if text.isEmpty {
                     self?.displayWeatherInfo(nil)
                 } else {
                     self?.requestWeatherInfo(by: text)
                 }
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
+
+        // これだと変更の度にrequestが走ってしまう
+//        cityNameTextField.rx.value
+//            .orEmpty // nilなら流さないアンラップ
+//            .subscribe(onNext: { [weak self] text in
+//                if text.isEmpty {
+//                    self?.displayWeatherInfo(nil)
+//                } else {
+//                    self?.requestWeatherInfo(by: text)
+//                }
+//            }).disposed(by: disposeBag)
     }
 
     /// 気候情報を受け取ってラベルの値を更新する
