@@ -55,6 +55,19 @@ class ViewController: UIViewController {
         let resource = Resource<WeatherInfo>(url: url)
         // 検索結果を持ったobservable
         let result = URLRequest.load(resource: resource)
+            .retryWhen({ (error) in
+                return error.flatMap { (error) -> Observable<WeatherInfo> in
+                    let nserror = error as NSError
+                    if nserror.code == -1009 {
+                        // オフラインなのでリトライする（再実行）
+                        // 回数を指定していないので、１回のみのリトライ
+                        return URLRequest.load(resource: resource)
+                    } else {
+                        // オフライン以外ならストリームを進める
+                        throw nserror
+                    }
+                }
+            })
             .catchError({ (error) -> Observable<WeatherInfo> in
                 // 発生したエラーをハンドリングしてエラーレスポンスを確認する
                 if let rxURLError = error as? RxCocoaURLError {

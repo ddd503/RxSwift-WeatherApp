@@ -26,6 +26,7 @@ extension URLRequest {
                 return URLSession.shared.rx.response(request: request)
         }
         .map { (response, data) in
+            // ここは通信自体が成功したときにしかこない（通信失敗は直接onErrorに入る）
             // 発生したエラーはcatchErrorで拾える
             if 200..<300 ~= response.statusCode {
                 return try JSONDecoder().decode(T.self, from: data)
