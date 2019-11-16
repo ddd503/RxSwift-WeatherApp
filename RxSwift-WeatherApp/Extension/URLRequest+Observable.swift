@@ -19,12 +19,20 @@ extension URLRequest {
         // 非同期処理を同期的に行い返す（urlRequest作成→リクエスト実行→レスポンスをparse→observableで流す）
         // flatMapは非Observableが流れてきた時
         // mapはObservableが流れてきた時
-        return Observable.from([resource.url])
-            .flatMap { url -> Observable<Data> in
+        // エラー時は通信系のエラー用observableを返す
+        return Observable.just(resource.url)
+            .flatMap { url -> Observable<(response: HTTPURLResponse, data: Data)> in
                 let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 5.0)
-                return URLSession.shared.rx.data(request: request)
-        }.map { data -> T in
-            return try JSONDecoder().decode(T.self, from: data)
-        }.asObservable()
+                return URLSession.shared.rx.response(request: request)
+        }
+        .map { (response, data) in
+            // 発生したエラーはcatchErrorで拾える
+            if 200..<300 ~= response.statusCode {
+                return try JSONDecoder().decode(T.self, from: data)
+            } else {
+                throw RxCocoaURLError.httpRequestFailed(response: response, data: data)
+            }
+        }
+        .asObservable()
     }
 }

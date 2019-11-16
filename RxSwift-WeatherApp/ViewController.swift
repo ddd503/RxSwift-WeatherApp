@@ -55,7 +55,22 @@ class ViewController: UIViewController {
         let resource = Resource<WeatherInfo>(url: url)
         // 検索結果を持ったobservable
         let result = URLRequest.load(resource: resource)
-            .asDriver(onErrorJustReturn: WeatherInfo.empty) // リクエストerrorの場合は指定値流す
+            .catchError({ (error) -> Observable<WeatherInfo> in
+                // 発生したエラーをハンドリングしてエラーレスポンスを確認する
+                if let rxURLError = error as? RxCocoaURLError {
+                    switch rxURLError {
+                    case .httpRequestFailed(let response, let data):
+                        print(response)
+                        print(data as Any)
+                    default: break
+                    }
+                } else {
+                    // RxCocoaURLError以外のエラー
+                    print(error.localizedDescription)
+                }
+                return Observable.just(WeatherInfo.empty)
+            })
+            .asDriver(onErrorJustReturn: WeatherInfo.empty)
 
         // 個別に値を取り出して、ラベル毎にbindする
         result
