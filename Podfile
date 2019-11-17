@@ -11,7 +11,7 @@ target 'RxSwift-WeatherApp' do
  pod 'RxCocoa', '~> 4.0'
 
 plugin 'cocoapods-keys', {
-  :project => "Access-API-Sample-URLSession",
+  :project => "RxSwift-WeatherApp",
   :keys => [
     "ApiKey",
   ]}
